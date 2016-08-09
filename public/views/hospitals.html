@@ -1,0 +1,85 @@
+<px-card icon='fa-wrench' header-text='Title Card'>
+    <h1>Hospitals</h1>
+    <p>This page is loaded without the Views service. It uses an Angular controller to drive logic.</p>
+    <p>This makes it easier to have custom logic and columns, but it requires more awareness of the data.</p>
+</px-card>
+<px-card icon='fa-hospital-o' header-text="{{allHospitalsHeaderText}}">
+	<div class="clearfix">
+		<div class="pull-right">
+			<px-modal id="delete-hospitals-modal"
+				btn-modal-negative="No"
+				btn-modal-positive="Yes"
+				modal-heading="Are you sure you want to delete the selected hospitals?"
+				modal-id="delete-hospitals-modal">
+				<button class="btn modal-trigger" ng-click="deleteSelected()"><i class="fa fa-trash"></i></button>
+				<div ng-repeat="item in allSelectedRows">
+					<p><b>{{item.row.name}}</b></p>
+					<p>{{item.row.address}}</p>
+				</div>
+				<b ng-if="allSelectedRows.length === 0">No hospitals selected.</b>
+			</px-modal>
+			<px-modal id="add-hospital-modal"
+				btn-modal-negative="Cancel"
+				btn-modal-positive="Add"
+				modal-heading="Add Hospital"
+				modal-id="add-hospital-modal">
+				<button class="btn modal-trigger"><i class="fa fa-plus"></i></button>
+				<p>Use this form to create a new hospital.</p>
+				<p><i>All fields are required.</i></p>
+				<paper-input-container>
+					<label>Name</label>
+					<input is="iron-input" ng-model="newHospital.name"></input>
+				</paper-input-container>
+				<paper-input-container>
+					<label>Description</label>
+					<input is="iron-input" ng-model="newHospital.description"></input>
+				</paper-input-container>
+				<paper-input-container>
+					<label>Address</label>
+					<input is="iron-input" ng-model="newHospital.address"></input>
+				</paper-input-container>
+				<paper-input-container>
+					<label>Postal Code</label>
+					<input is="iron-input" ng-model="newHospital.postalCode"></input>
+				</paper-input-container>
+				<paper-input-container>
+					<label>Country</label>
+					<input is="iron-input" ng-model="newHospital.country"></input>
+				</paper-input-container>
+			</px-modal>
+			<button class="btn" ng-click="refresh()"><i class="fa fa-refresh"></i></button>
+		</div>
+	</div>
+	<px-data-table filterable id="hospital-table" selectable table-data="{{hospitals}}" searchable enable-column-reorder show-column-chooser>
+		<px-data-table-column
+		    name="name"
+		    sortable
+		    filterable
+		    label="Name">
+		</px-data-table-column>
+		<px-data-table-column
+		    name="description"
+		    sortable
+		    filterable
+		    label="Description">
+		</px-data-table-column>
+		<px-data-table-column
+		    name="address"
+		    sortable
+		    filterable
+		    label="Address">
+		</px-data-table-column>
+		<px-data-table-column
+		    name="postalCode"
+		    sortable
+		    filterable
+		    label="Postal Code">
+		</px-data-table-column>
+		<px-data-table-column
+		    name="country"
+		    sortable
+		    filterable
+		    label="Country">
+		</px-data-table-column>
+	</px-data-table>
+</px-card>

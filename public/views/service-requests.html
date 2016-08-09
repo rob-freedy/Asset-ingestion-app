@@ -1,0 +1,119 @@
+
+<px-card icon='fa-wrench' header-text='Service Requests'>
+    <p>This page is loaded without the Views service. It uses an Angular controller to drive logic.</p>
+    <p>This makes it easier to have custom logic and columns, but it requires more awareness of the data.</p>
+</px-card>
+
+<px-card icon='fa-hospital-o' header-text="{{allServiceRequetssHeaderText}}">
+	<div class="clearfix">
+		<div class="pull-right">
+			<button class="btn" ng-click="refresh()"><i class="fa fa-refresh"></i></button>
+		</div>
+	</div>
+	<px-data-table filterable id="service-request-table" table-data="{{serviceRequests}}" searchable enable-column-reorder>
+		<px-data-table-column
+		    name="dateCreatedString"
+		    sortable
+		    filterable
+		    label="Date Created">
+		</px-data-table-column>
+		<px-data-table-column
+		    name="dateFulfilledString"
+		    sortable
+		    filterable
+		    label="Date Fulfilled">
+		</px-data-table-column>
+		<px-data-table-column
+		    name="fieldEngineerString"
+		    sortable
+		    filterable
+		    label="Field Engineer">
+		</px-data-table-column>
+		<px-data-table-column
+		    name="hospitalString"
+		    sortable
+		    filterable
+		    label="Hospital">
+		</px-data-table-column>
+		<px-data-table-column
+		    name="assetId"
+		    sortable
+		    filterable
+		    label="Equipment">
+		</px-data-table-column>
+	</px-data-table>
+	
+</px-card>
+
+<px-modal
+	btn-modal-positive="Submit"
+	btn-modal-negative="Cancel"
+	modal-heading="Upload File"
+	id="upload-file-modal">
+	<b>Please use the below form to upload a file.</b>
+	<div is="iron-form" class="margin-top-15">
+		<i>Required</i>
+		<input type="file" id="file" name='file' file-model="myFile" />
+	</div>
+	<script type="text/javascript">
+		document.getElementById('upload-file-modal').addEventListener('btnModalPositiveClicked', function() {
+			angular.element(document.getElementById('upload-file-modal')).scope().uploadFile();
+		});
+		function uploadImageModal(){
+			Polymer.dom(document).querySelector("#update-service-request-modal").modalButtonClicked();
+			Polymer.dom(document).querySelector("#upload-file-modal").modalButtonClicked();
+		}
+	</script>
+</px-modal>
+
+<px-modal id="update-service-request-modal"
+	btn-modal-negative="Cancel"
+	btn-modal-positive="Update"
+	modal-heading="Update Service Request"
+	modal-id="update-service-request-modal">
+		<div is="iron-form" class="margin-top-15">
+			<div class="toolbar pull-right">
+			<button  onclick="uploadImageModal()"><span class="fa fa-upload"></span> Upload File</button>
+		</div>
+		<i style="display: block;margin-top: 15px;">Required</i>
+		<paper-input-container always-float-label>
+            <label>AssetId</label>
+            <input is="iron-input" required ng-model="selectedServiceRequest.assetId" ng-value="selectedServiceRequest.assetId"></input>
+        </paper-input-container>
+		<i style="display: block;margin-top: 15px;">Required</i>
+		<paper-div-container>
+            <div style="margin-bottom: 20px;">
+				<b>Hospital</b>
+				<select is="iron-input" ng-model="selectedServiceRequest.hospital" ng-options="h.name for h in hospitals track by h.hospitalId"></select>
+			</div>
+        </paper-div-container>
+		<i style="display: block;margin-top: 15px;">Required</i>
+		<paper-div-container>
+			<div style="margin-bottom: 20px;">
+				<b>Field Engineer</b>
+				<select is="iron-input" ng-model="selectedServiceRequest.fieldEngineer" ng-options="f.name for f in fieldEngineers track by f.fieldEngineerId"></select>
+			</div>
+		</paper-div-container>
+		<paper-div-container>
+			<div style="margin-bottom: 20px;">
+				<b>Documents</b>
+				<div ng-repeat="n in selectedServiceRequest.serviceRequestsAttachment track by n.attachmentId"><a href="https://itpe-training-blobstore-controller.run.aws-usw02-pr.ice.predix.io/api/v1/file/{{n.blobUrl}}">{{n.blobUrl}}</a></div>
+			</div>
+		</paper-div-container>
+		<paper-div-container>
+			<div style="margin-bottom: 20px;">
+				<b>Date Created</b>
+				<div>{{selectedServiceRequest.dateCreatedString}}</div>
+			</div>
+			<div style="margin-bottom: 20px;">
+				<b>Date Fulfilled</b>
+				<div ng-if="selectedServiceRequest.dateFulfilled == null">
+				Not Fulfulled: <button class="btn" ng-click="fulfillServiceRequest()"><i class="fa fa-check-circle"></i></button>
+				</div>
+				<div ng-if="selectedServiceRequest.dateFulfilled != null">
+				{{selectedServiceRequest.dateFulfilledString}}
+				</div>
+			</div>
+		</paper-div-container>
+    </div>
+</px-modal>

@@ -1,0 +1,58 @@
+<px-context-browser
+        browser-context='{{initialContexts}}'
+        handlers="ngScope:handlers"
+        opened-item-name="{{initialContextName}}"
+        show-chevron="true">
+</px-context-browser>
+
+<px-card  header-text="Dashboards">
+	</br>
+	<button class="btn btn--primary pull-left" ng-click="refreshData()">Refresh Data</button>
+	<button class="btn btn--primary pull-right" onclick="addServiceRequestModal()">Generate Service Request</button>
+	</br></br>
+	
+	<px-chart id="contextChartContainer">
+	  <px-chart-series-line data="{{contextLineData}}" id="Equipment Timeseries Data" >
+	  </px-chart-series-line>
+	</px-chart>
+</px-card>
+
+<px-modal
+    btn-modal-positive="Submit"
+    btn-modal-negative="Cancel"
+    modal-heading="Create Service Request"
+    id="add-service-request-modal">
+    <b>Please use the below form to create a service request.</b>
+    <div is="iron-form" class="margin-top-15">
+        <paper-input-container>
+            <label>*Note: Creation date for this service request will be today.</label>
+        </paper-input-container>
+		<i style="display: block;margin-top: 15px;">Required</i>
+		<paper-input-container>
+            <label>AssetId</label>
+            <input is="iron-input" required ng-model="newServiceRequest.assetId" ng-value="newServiceRequest.assetId"></input>
+        </paper-input-container>
+		<i style="display: block;margin-top: 15px;">Required</i>
+		<paper-div-container>
+            <div style="margin-bottom: 20px;">
+				<b>Hospital</b>
+				<select is="iron-input" ng-model="newServiceRequest.hospital" ng-options="h.name for h in hospitals track by h.hospitalId"></select>
+			</div>
+        </paper-div-container>
+		<i style="display: block;margin-top: 15px;">Required</i>
+		<paper-div-container>
+			<div style="margin-bottom: 20px;">
+				<b>Field Engineer</b>
+				<select is="iron-input" ng-model="newServiceRequest.fieldEngineer" ng-options="f.name for f in fieldEngineers track by f.fieldEngineerId"></select>
+			</div>
+		</paper-div-container>
+    </div>
+    <script type="text/javascript">
+        document.getElementById('add-service-request-modal').addEventListener('btnModalPositiveClicked', function() {
+            angular.element(document.getElementById('add-service-request-modal')).scope().addServiceRequest();
+        });
+        function addServiceRequestModal(){
+            Polymer.dom(document).querySelector("#add-service-request-modal").modalButtonClicked();
+        }
+    </script>
+</px-modal>

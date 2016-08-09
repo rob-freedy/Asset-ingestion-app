@@ -1,0 +1,13 @@
+---
+applications:
+  - name: itpe-training
+    buildpack: predix_openresty_buildpack
+    path: dist
+    memory: 64M
+    stack: cflinuxfs2
+    services:
+            - itpe-training-redis # change this to your redis service instance name
+            - itpe_training_views # change this to your view service instance name
+    env:
+      UAA_SERVER_URL: https://7a4485e7-97aa-49e9-9610-39568ba77e42.predix-uaa.run.aws-usw02-pr.ice.predix.io # change to your UAA instance url
+      REDIS: redis-1

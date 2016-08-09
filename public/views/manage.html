@@ -1,0 +1,6 @@
+<px-card icon='fa-wrench' header-text='Manage GE Healthcare Services'>
+    <h1>GE Healthcare Services</h1>
+    <p>Use this view to manage hospitals, field engineers, and service requests.</p>
+    <px-deck-selector ng-bind-polymer decks="{{decks}}" selected-deck="{{selectedDeck}}"></px-deck-selector>
+</px-card>
+<px-dashboard view-service-base-url="{{viewServiceBaseUrl}}" selected-deck-id="{{selectedDeck.id}}" context="{{context}}"></px-dashboard>

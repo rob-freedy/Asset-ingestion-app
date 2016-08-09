@@ -1,0 +1,170 @@
+<px-context-browser
+        browser-context='{{initialContexts}}'
+        handlers="ngScope:handlers"
+        opened-item-name="{{asset.name}}"
+        show-chevron="true">
+</px-context-browser>
+<px-context>
+	<div class="container">
+		<div class="section-header">
+			Asset Information
+		</div>
+		<div class="attribute" ng-if="asset.assetId">
+		  	<div class="attribute-header">Asset ID</div>
+		  	<div class="attribute-value">{{asset.assetId}}</div>
+		</div>
+		<div class="attribute" ng-if="asset.name">
+		  	<div class="attribute-header">Name</div>
+		  	<div class="attribute-value">{{asset.name}}</div>
+		</div>
+		<div class="attribute" ng-if="asset.description">
+		  	<div class="attribute-header">Description</div>
+		  	<div class="attribute-value">{{asset.description}}</div>
+		</div>
+		<div class="attribute" ng-if="asset.type">
+		  	<div class="attribute-header">Type</div>
+		  	<div class="attribute-value">{{asset.type}}</div>
+		</div>
+		<div class="section-header">
+			Child Assets
+		</div>
+		<div class="equipment-list">
+			<div ng-repeat="equipment in asset.children" class="equipment">
+				<div class="pull-right">
+					<span class="fa fa-pencil gray-icon pointer large-icon" ng-click="showEditEquipmentModal(equipment)"></span>
+					<p><span class="fa fa-times gray-icon pointer large-icon" ng-click="showDeleteEquipmentModal(equipment)"></span></p>
+				</div>
+				<div class="equipment-name">{{equipment.name}}</div>
+				<div class="equipment-type" ng-if="equipment">{{equipment.type}}</div>
+			</div>
+			<div class="equipment pointer" ng-click="showNewEquipmentModal()">
+				<span class="pull-right fa-plus fa gray-icon large-icon"></span>
+				<div class="equipment-name">New</div>
+				<div class="equipment-description">Create a new equipment asset</div>
+			</div>
+		</div>
+	</div>
+</px-context>
+
+<!-- New Equipment Modal -->
+<px-modal
+	btn-modal-positive="Submit"
+	btn-modal-negative="Cancel"
+	modal-heading="New Equipment"
+	id="new-equipment-modal">
+	<p><b>Please use the below form to add new equipment to your asset.</b></p>
+	<i>All fields are required.</i>
+	<div is="iron-form">
+		<paper-input-container>
+			<label>Asset ID</label>
+			<input is="iron-input" required ng-model="newEquipment.assetId"></input>
+		</paper-input-container>
+		<paper-input-container>
+			<label>Name</label>
+			<input is="iron-input" required ng-model="newEquipment.name"></input>
+		</paper-input-container>
+		<paper-input-container>
+			<label>Type</label>
+			<input is="iron-input" required ng-model="newEquipment.type"></input>
+		</paper-input-container>
+		<paper-input-container>
+			<label>Model</label>
+			<input is="iron-input" required ng-model="newEquipment.model"></input>
+		</paper-input-container>
+		<paper-input-container>
+			<label>Serial Number</label>
+			<input is="iron-input" required ng-model="newEquipment.serial_no"></input>
+		</paper-input-container>
+	</div>
+</px-modal>
+
+<!-- Edit Equipment Modal -->
+<px-modal
+	btn-modal-positive="Submit"
+	btn-modal-negative="Cancel"
+	modal-heading="Edit Equipment"
+	id="edit-equipment-modal">
+	<p><b>Please use the below form to edit equipment.</b></p>
+	<i>All fields are required.</i>
+	<div is="iron-form">
+		<paper-input-container always-float-label>
+			<label>Name</label>
+			<input is="iron-input" required ng-model="selectedEditAsset.name"></input>
+		</paper-input-container>
+		<paper-input-container always-float-label>
+			<label>Type</label>
+			<input is="iron-input" required ng-model="selectedEditAsset.type"></input>
+		</paper-input-container>
+		<paper-input-container always-float-label>
+			<label>Model</label>
+			<input is="iron-input" required ng-model="selectedEditAsset.model"></input>
+		</paper-input-container>
+		<paper-input-container always-float-label>
+			<label>Serial Number</label>
+			<input is="iron-input" required ng-model="selectedEditAsset.serial_no"></input>
+		</paper-input-container>
+	</div>
+</px-modal>
+
+<!-- Delete Equipment Modal -->
+<px-modal
+	btn-modal-positive="Yes"
+	btn-modal-negative="No"
+	modal-heading="Delete Equipment Confirmation"
+	id="delete-equipment-modal">
+	<p>Are you sure you want to delete {{selectedDeleteAsset.name}}?</p>
+</px-modal>
+
+<style is="custom-style">
+	.flex-horizontal {
+		@apply(--layout-horizontal);
+	}
+	.flexchild {
+		@apply(--layout-flex);
+	}
+  	.attribute {
+	    width: 250px;
+	    max-width: 100%;
+	    display: inline-block;
+	    margin-bottom: 20px;
+	    vertical-align: top;
+	    margin-right: 20px;
+	}
+	px-context>.container{
+		padding: 20px;
+	}
+	.attribute-header{
+		color: #7c7c84;
+	}
+	.attribute-value{
+		font-size: 20px;
+	}
+	.section-header{
+		font-weight: bold;
+		margin-bottom: 15px;
+	}
+	.equipment-name{
+		font-weight: bold;
+		font-size: 24px;
+	}
+	.equipment-type, .gray-icon{
+		color: #8b8d8f;
+	}
+	.equipment{
+		padding: 20px;
+		width: 23%;
+		height: 124px;
+		max-width: 100%;
+		min-width: 250px;
+		display: inline-block;
+		margin-bottom: 15px;
+		margin-right: 15px;
+		background-color: white;
+		color: black;
+	}
+	.new-equipment{
+		font-size: 24px;
+		line-height: 91px;
+		text-align: center;
+	}
+</style>
